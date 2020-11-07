@@ -29,27 +29,56 @@ public class Bank {
 		user.setAccountNumber(scanner.nextLine());
 		System.out.println("Enter name: ");
 		user.setName(scanner.nextLine());
-		while(true) {
+		while (true) {
 			System.out.println("Enter password: ");
 			String password = scanner.nextLine();
 			System.out.println("Confirm password: ");
 			String confirmPassword = scanner.nextLine();
-			if(password.equals(confirmPassword)) {
+			if (password.equals(confirmPassword)) {
 				user.setPassword(password);
 				break;
-			}
-			else {
+			} else {
 				System.out.println("***Passwords don't match***");
 			}
 		}
-		
 //		System.out.println(user.getName());
 //		System.out.println(user.getPassword());
 //		System.out.println(user.getAccountNumber());
 	}
 
-	public void login() {
-
+	public void login(BufferedReader bReader) throws IOException {
+		Scanner scanner = new Scanner(System.in);
+		boolean nameFlag = false;
+		boolean passwordFlag = false;
+		System.out.println("Enter name: ");
+		user.setName(scanner.nextLine());
+		System.out.println("Enter password: ");
+		user.setPassword(scanner.nextLine());
+		String line = null;
+		while ((line = bReader.readLine()) != null) {
+			String elements[] = line.split(",");
+//			System.out.println(user.getName() + "  " + user.getPassword());
+//			System.out.println(elements[1] + "  " + elements[2]);
+			if (user.getName().equals(elements[1])) {
+				nameFlag = true;
+				if (user.getPassword().equals(elements[2])) {
+					passwordFlag = true;
+				} else {
+					passwordFlag = false;
+				}
+				break;
+			} else {
+				nameFlag = false;
+			}
+		}
+//		System.out.println(nameFlag + "    " + passwordFlag);
+		if (nameFlag && passwordFlag) {
+			System.out.println("Login successful");
+		} else if (nameFlag && !passwordFlag) {
+			System.out.println("***Password does not match***");
+		} else {
+			System.out.println("***User does not exist***");
+		}
 	}
 
 	public static void main(String args[]) throws IOException {
@@ -58,20 +87,21 @@ public class Bank {
 		BufferedWriter bWriter = null;
 		FileReader reader = null;
 		FileWriter writer = null;
-		try {
-			reader = new FileReader(System.getProperty("user.dir") + "/src/main/resources/UserData.txt");
-			bReader = new BufferedReader(reader);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			reader = new FileReader(System.getProperty("user.dir") + "/src/main/resources/UserData.txt");
+//			System.out.println("reader");
+//			bReader = new BufferedReader(reader);
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
 
-		try {
-			writer = new FileWriter(System.getProperty("user.dir") + "/src/main/resources/UserData.txt");
-			System.out.println("mz<sgfiaru2");
-			bWriter = new BufferedWriter(writer);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			writer = new FileWriter(System.getProperty("user.dir") + "/src/main/resources/UserData.txt");
+//			System.out.println("writer");
+//			bWriter = new BufferedWriter(writer);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 
 		Bank bank = new Bank();
 
@@ -87,11 +117,24 @@ public class Bank {
 			switch (choice) {
 			case 1:
 				System.out.println("login");
-				bank.login();
+				try {
+					reader = new FileReader(System.getProperty("user.dir") + "/src/main/resources/UserData.txt");
+					bReader = new BufferedReader(reader);
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+				bank.login(bReader);
+
 				break;
 			case 2:
 				System.out.println("register");
 				bank.register();
+				try {
+					writer = new FileWriter(System.getProperty("user.dir") + "/src/main/resources/UserData.txt");
+					bWriter = new BufferedWriter(writer);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				bWriter.write(bank.user.getAccountNumber() + ",");
 				bWriter.write(bank.user.getName() + ",");
 				bWriter.write(bank.user.getPassword() + "\n");
