@@ -94,7 +94,8 @@ public class Bank {
 				bank.register();
 				bWriter.write(bank.user.getAccountNumber() + ",");
 				bWriter.write(bank.user.getName() + ",");
-				bWriter.write(bank.user.getPassword() + ":");
+				bWriter.write(bank.user.getPassword() + "\n");
+				bWriter.flush();
 				break;
 			case 3:
 				System.out.println("Thank you for banking with us");
