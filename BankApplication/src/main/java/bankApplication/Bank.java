@@ -57,11 +57,10 @@ public class Bank {
 		String line = null;
 		while ((line = bReader.readLine()) != null) {
 			String elements[] = line.split(",");
-//			System.out.println(user.getName() + "  " + user.getPassword());
-//			System.out.println(elements[1] + "  " + elements[2]);
 			if (user.getName().equals(elements[1])) {
 				nameFlag = true;
 				if (user.getPassword().equals(elements[2])) {
+					user.setAccountNumber(elements[0]);
 					passwordFlag = true;
 				} else {
 					passwordFlag = false;
@@ -71,9 +70,9 @@ public class Bank {
 				nameFlag = false;
 			}
 		}
-//		System.out.println(nameFlag + "    " + passwordFlag);
 		if (nameFlag && passwordFlag) {
 			System.out.println("Login successful");
+			user.options();
 		} else if (nameFlag && !passwordFlag) {
 			System.out.println("***Password does not match***");
 		} else {
