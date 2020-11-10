@@ -9,16 +9,28 @@ public class SavingsAccount extends Account {
 		this.balance = balance;
 	}
 
+	public double getAnnualInterestRate() {
+		return annualInterestRate;
+	}
+
+	public double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+
 	void display() {
 		System.out.println("Savings Account Details --- ");
 		System.out.println("Account number : " + this.accountNumber);
 		System.out.println("Name   : " + this.name);
-		System.out.println("Balance : " + this.balance);
+		System.out.println("Balance : " + this.getBalance());
 	}
 
 	void calculate() {
 		double monthlyI;
-		monthlyI = (double) (this.balance * annualInterestRate / 12);
-		this.balance += monthlyI;
+		monthlyI = this.getBalance() * getAnnualInterestRate() / 12;
+		this.setBalance(this.getBalance() + monthlyI);
 	}
 }
