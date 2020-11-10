@@ -1,7 +1,7 @@
 package bankApplication;
 
 public interface transaction {
-	public int withdraw(int balance, int withdraw);
-	public int deposit(int balance, int deposit);
-	public int balancecheck(int balance);
+	public double withdraw(double balance, int withdraw);
+	public double deposit(double balance, int deposit);
+	public double balancecheck(double balance);
 }

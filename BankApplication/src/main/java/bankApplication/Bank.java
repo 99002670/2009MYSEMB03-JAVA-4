@@ -23,7 +23,7 @@ public class Bank {
 		this.user = user;
 	}
 
-	public void register() {
+	public void register() throws NumberFormatException, IOException {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Enter account number: ");
 		user.setAccountNumber(scanner.nextLine());
@@ -41,8 +41,7 @@ public class Bank {
 				System.out.println("***Passwords don't match***");
 			}
 		}
-		System.out.println("Enter balance: ");
-		user.setBalance(Double.parseDouble(scanner.nextLine()));
+		user.setBalance(0);
 		System.out.println("###Types of accounts###");
 		System.out.println("Savings");
 		System.out.println("Recurring");
@@ -134,14 +133,15 @@ public class Bank {
 				System.out.println("register");
 				bank.register();
 				try {
-					writer = new FileWriter(System.getProperty("user.dir") + "/src/main/resources/UserData.txt");
+					writer = new FileWriter(System.getProperty("user.dir") + "/src/main/resources/UserData.txt", true);
 					bWriter = new BufferedWriter(writer);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				bWriter.write(bank.user.getAccountNumber() + ",");
 				bWriter.write(bank.user.getName() + ",");
-				bWriter.write(bank.user.getPassword() + "\n");
+				bWriter.write(bank.user.getPassword() + ",");
+				bWriter.write(bank.user.getBalance() + "\n");
 				bWriter.flush();
 				break;
 			case 3:

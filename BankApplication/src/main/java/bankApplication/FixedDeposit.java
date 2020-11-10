@@ -1,8 +1,8 @@
 package bankApplication;
 
 class FixedDeposit extends Account {
-	double amount;
 	final double interestRate = 0.06;
+	double amount;
 	int duration;
 	double maturityAmount;
 	double balance;

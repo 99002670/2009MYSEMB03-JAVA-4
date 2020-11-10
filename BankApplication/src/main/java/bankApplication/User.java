@@ -1,5 +1,12 @@
 package bankApplication;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class User {
@@ -9,11 +16,64 @@ public class User {
 	private double balance;
 	Account account;
 
-	public double getBalance() {
-		return balance;
+	public double getBalance() throws IOException {
+		FileReader reader = null;
+		BufferedReader bReader = null;
+		try {
+			reader = new FileReader(System.getProperty("user.dir") + "/src/main/resources/UserData.txt");
+			bReader = new BufferedReader(reader);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		String line = null;
+		while ((line = bReader.readLine()) != null) {
+			String elements[] = line.split(",");
+			if (line.contains(this.name)) {
+				bReader.close();
+				reader.close();
+				return Double.parseDouble(elements[3]);
+			}
+		}
+		bReader.close();
+		reader.close();
+		return this.balance;
 	}
 
-	public void setBalance(double balance) {
+	public void setBalance(double balance) throws IOException {
+		FileReader reader = null;
+		BufferedReader bReader = null;
+		FileWriter writer = null;
+		BufferedWriter bWriter = null;
+		try {
+			reader = new FileReader(System.getProperty("user.dir") + "/src/main/resources/UserData.txt");
+			bReader = new BufferedReader(reader);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		try {
+			writer = new FileWriter(System.getProperty("user.dir") + "/src/main/resources/temp.txt", true);
+			bWriter = new BufferedWriter(writer);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String line;
+		while ((line = bReader.readLine()) != null) {
+            if (line.contains(this.name)) {
+            	String elements[] = line.split(",");
+               line = line.replace(elements[3], "" + balance);
+            }
+            bWriter.write(line+"\n");
+         }
+		bReader.close();
+		reader.close();
+		bWriter.close();
+		writer.close();
+		File oldFile = new File(System.getProperty("user.dir") + "/src/main/resources/UserData.txt");
+	      oldFile.delete();
+
+	      // And rename tmp file's name to old file name
+	      File newFile = new File(System.getProperty("user.dir") + "/src/main/resources/temp.txt");
+	      newFile.renameTo(oldFile);
 		this.balance = balance;
 	}
 
@@ -59,28 +119,29 @@ public class User {
 
 	}
 
-	public void transaction() {
+	public void transaction() throws IOException {
 		System.out.println("Welcome To the Transaction");
-		int balance = 5000, withdraw, deposit;
-		Scanner s = new Scanner(System.in);
-		while (true) {
+		int withdraw, deposit;
+		Scanner scanner = new Scanner(System.in);
+		int choice;
+		do {
 			System.out.println("Press 1: To Deposit an Amount");
 			System.out.println("Press 2: To Withdraw Money");
 			System.out.println("Press 3: To Check the Balance remaining");
 			System.out.println("Press 4: To EXIT and END the Transaction");
 			System.out.println("..................................................");
 			System.out.print("Choose the operation you want to perform:");
-			int n = s.nextInt();
+			choice = scanner.nextInt();
 			System.out.println("..................................................");
-			switch (n) {
+			switch (choice) {
 			case 1:
 				transactionimplementation t = new transactionimplementation();
 				Scanner d = new Scanner(System.in);
 				System.out.println("Enter money to be deposited:-");
 				deposit = d.nextInt();
-				balance = t.deposit(1000, deposit);
+				this.setBalance(t.deposit(this.getBalance(), deposit));
 				System.out.println("Your Money has been successfully deposited......Thank you");
-				System.out.println("Balance Left:" + balance);
+				System.out.println("Balance Left:" + this.balance);
 				System.out.println("..................................................");
 				System.out.println("..................................................");
 				break;
@@ -90,35 +151,38 @@ public class User {
 				Scanner w = new Scanner(System.in);
 				System.out.print("Enter the amount to be withdrawn:");
 				withdraw = w.nextInt();
-				balance = t1.withdraw(balance, withdraw);
-				System.out.println("Balance Left:" + balance);
+				this.setBalance(t1.withdraw(this.getBalance(), withdraw));
+				System.out.println("Balance Left:" + this.balance);
 				System.out.println("..................................................");
 				System.out.println("..................................................");
 				break;
 
 			case 3:
 				transactionimplementation t2 = new transactionimplementation();
-				balance = (t2.balancecheck(balance));
-				System.out.println("Balance Left:" + balance);
+				this.balance = (t2.balancecheck(this.getBalance()));
+				System.out.println("Balance Left:" + this.getBalance());
 				System.out.println("..................................................");
 				System.out.println("..................................................");
 				break;
 
 			case 4:
-				System.exit(0);
+				System.out.println("Transactions complete");
+				break;
+			default:
+				System.out.println("***Invalid entry, try again***");		
 			}
-		}
+		}while(choice != 4);
 	}
 
-	public void viewBalance() {
-		System.out.println("Current balance: " + this.balance);
+	public void viewBalance() throws IOException {
+		System.out.println("Current balance: " + this.getBalance());
 	}
 
 	public void viewAccountDetails() {
 		this.account.display();
 	}
 
-	public void options() {
+	public void options() throws IOException {
 		System.out.println(accountNumber + "  " + name + "  " + password);
 		Scanner scanner = new Scanner(System.in);
 		int choice = 0;

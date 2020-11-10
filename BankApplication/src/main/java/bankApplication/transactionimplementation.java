@@ -2,7 +2,7 @@ package bankApplication;
 
 class transactionimplementation implements transaction
 {
-	public int withdraw(int balance,int withdraw)
+	public double withdraw(double balance,int withdraw)
 	{
 	if(balance >= withdraw)
 	{
@@ -17,12 +17,12 @@ class transactionimplementation implements transaction
 	}
 	}
 	
-	public int deposit(int balance, int deposit)
+	public double deposit(double balance, int deposit)
 	{
 		return(balance += deposit);	
 	}
 	
-	public int balancecheck(int balance)
+	public double balancecheck(double balance)
 	{
 		return(balance);
 	}
