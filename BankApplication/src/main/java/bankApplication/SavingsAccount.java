@@ -23,14 +23,14 @@ public class SavingsAccount extends Account {
 
 	void display() {
 		System.out.println("Savings Account Details --- ");
-		System.out.println("Account number : " + this.accountNumber);
-		System.out.println("Name   : " + this.name);
+		System.out.println("Account number : " + this.getAccountNumber());
+		System.out.println("Name   : " + this.getName());
 		System.out.println("Balance : " + this.getBalance());
 	}
 
 	void calculate() {
 		double monthlyI;
-		monthlyI = this.getBalance() * getAnnualInterestRate() / 12;
+		monthlyI = this.getBalance() * this.getAnnualInterestRate() / 12;
 		this.setBalance(this.getBalance() + monthlyI);
 	}
 }
