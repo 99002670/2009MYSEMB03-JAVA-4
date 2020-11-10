@@ -175,6 +175,7 @@ public class Bank {
 				break;
 			case 3:
 				System.out.println("Thank you for banking with us");
+				System.exit(0);
 				break;
 			default:
 				System.out.println("Invalid entry, try again");

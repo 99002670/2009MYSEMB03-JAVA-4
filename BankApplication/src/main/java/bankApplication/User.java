@@ -162,7 +162,7 @@ public class User {
 				deposit = d.nextInt();
 				this.setBalance(t.deposit(this.getBalance(), deposit));
 				System.out.println("Your Money has been successfully deposited......Thank you");
-				System.out.println("Balance Left:" + this.balance);
+				System.out.println("Balance Left:" + this.getBalance());
 				System.out.println("..................................................");
 				System.out.println("..................................................");
 				break;
@@ -173,7 +173,7 @@ public class User {
 				System.out.print("Enter the amount to be withdrawn:");
 				withdraw = w.nextInt();
 				this.setBalance(t1.withdraw(this.getBalance(), withdraw));
-				System.out.println("Balance Left:" + this.balance);
+				System.out.println("Balance Left:" + this.getBalance());
 				System.out.println("..................................................");
 				System.out.println("..................................................");
 				break;
