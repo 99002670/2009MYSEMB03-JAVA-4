@@ -1,8 +1,9 @@
 package bankApplication;
 
 abstract class Account {
-	protected String accountNumber;
-	protected String name;
+	private String accountNumber;
+	private String name;
+	private String accountType;
 
 	Account(String accountNumber, String name) {
 		this.accountNumber = accountNumber;
@@ -23,6 +24,14 @@ abstract class Account {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
 	}
 
 	abstract void display();

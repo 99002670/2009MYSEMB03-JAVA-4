@@ -1,3 +1,4 @@
-123,milind,milind11,1000
-456,amit,amit11,3000.0
-789,anubhav,anubhav11,3000.0
+123,milind,milind11,1000.0,Savings
+456,amit,amit11,3000.0,Recurring
+789,anubhav,anubhav11,3000.0,Fixed
+147,aman,aman11,0.0,Savings

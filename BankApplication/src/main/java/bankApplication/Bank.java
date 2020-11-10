@@ -26,28 +26,56 @@ public class Bank {
 	public void register() throws NumberFormatException, IOException {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Enter account number: ");
-		user.setAccountNumber(scanner.nextLine());
+		this.user.setAccountNumber(scanner.nextLine());
 		System.out.println("Enter name: ");
-		user.setName(scanner.nextLine());
+		this.user.setName(scanner.nextLine());
 		while (true) {
 			System.out.println("Enter password: ");
 			String password = scanner.nextLine();
 			System.out.println("Confirm password: ");
 			String confirmPassword = scanner.nextLine();
 			if (password.equals(confirmPassword)) {
-				user.setPassword(password);
+				this.user.setPassword(password);
 				break;
 			} else {
 				System.out.println("***Passwords don't match***");
 			}
 		}
-		user.setBalance(0);
+		this.user.setBalance(0);
 		System.out.println("###Types of accounts###");
 		System.out.println("Savings");
 		System.out.println("Recurring");
 		System.out.println("Fixed");
 		System.out.println("Enter account type: ");
-		user.setAccount(scanner.nextLine());
+//		this.user.setAccount(scanner.nextLine());
+		String accountType = scanner.nextLine();
+		FileWriter writer = null;
+		BufferedWriter bWriter = null;
+		try {
+			writer = new FileWriter(System.getProperty("user.dir") + "/src/main/resources/temp.txt", true);
+			bWriter = new BufferedWriter(writer);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if (accountType.equalsIgnoreCase("Savings")) {
+			this.user.account = new SavingsAccount(this.user.getAccountNumber(), this.user.getName(), this.user.getBalance());
+			bWriter.write("Savings");
+			this.user.account.setAccountType("Savings");
+		} else if (accountType.equalsIgnoreCase("Recurring")) {
+			System.out.println("Enter duration: ");
+			int durationYears = Integer.parseInt(scanner.nextLine());
+			this.user.account = new RecurringDeposit(this.user.getAccountNumber(), this.user.getName(), this.user.getBalance(), durationYears);
+			bWriter.write("Recurring");
+			this.user.account.setAccountType("Recurring");
+		} else if (accountType.equalsIgnoreCase("Fixed")) {
+			System.out.println("Enter duration: ");
+			int duration = Integer.parseInt(scanner.nextLine());
+			this.user.account = new FixedDeposit(this.user.getAccountNumber(), this.user.getName(), this.user.getBalance(), duration);
+			bWriter.write("Fixed");
+			this.user.account.setAccountType("Fixed");
+		} else {
+			System.out.println("***Invalid account type***");
+		}
 	}
 
 	public void login(BufferedReader bReader) throws IOException {
@@ -141,7 +169,8 @@ public class Bank {
 				bWriter.write(bank.user.getAccountNumber() + ",");
 				bWriter.write(bank.user.getName() + ",");
 				bWriter.write(bank.user.getPassword() + ",");
-				bWriter.write(bank.user.getBalance() + "\n");
+				bWriter.write(bank.user.getBalance() + ",");
+				bWriter.write(bank.user.getAccount() + "\n");
 				bWriter.flush();
 				break;
 			case 3:

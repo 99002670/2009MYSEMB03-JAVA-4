@@ -3,11 +3,11 @@ package bankApplication;
 class RecurringDeposit extends Account {
 	protected double amount;
 	final double interestRate = 0.05;
-	protected double tenure;
+	protected int tenure;
 	double recurringAmount;
 	double recurringInterest;
 
-	RecurringDeposit(String accountNumber, String name, double amount, double durationYears) {
+	RecurringDeposit(String accountNumber, String name, double amount, int durationYears) {
 		super(accountNumber, name);
 		this.amount = amount;
 		this.tenure = durationYears;
@@ -21,11 +21,11 @@ class RecurringDeposit extends Account {
 		this.amount = amount;
 	}
 
-	public double getTenure() {
+	public int getTenure() {
 		return this.tenure;
 	}
 
-	public void setTenure(double tenure) {
+	public void setTenure(int tenure) {
 		this.tenure = tenure;
 	}
 

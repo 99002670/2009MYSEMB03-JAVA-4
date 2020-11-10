@@ -101,22 +101,43 @@ public class User {
 		this.accountNumber = accountNumber;
 	}
 
-	public void setAccount(String accountType) {
-		Scanner scanner = new Scanner(System.in);
+	public String getAccount() throws IOException {
+		FileReader reader = null;
+		BufferedReader bReader = null;
+		try {
+			reader = new FileReader(System.getProperty("user.dir") + "/src/main/resources/UserData.txt");
+			bReader = new BufferedReader(reader);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		String line = null;
+		while ((line = bReader.readLine()) != null) {
+			String elements[] = line.split(",");
+			if (line.contains(this.name)) {
+				bReader.close();
+				reader.close();
+				return elements[4];
+			}
+		}
+		return account.getAccountType();
+	}
+	
+	public void setAccount(String accountType) throws IOException {
 		if (accountType.equalsIgnoreCase("Savings")) {
-			this.account = new SavingsAccount(this.accountNumber, this.name, this.balance);
+			this.account = new SavingsAccount(this.getAccountNumber(), this.getName(), this.getBalance());
+			this.account.setAccountType("Savings");
 		} else if (accountType.equalsIgnoreCase("Recurring")) {
 			System.out.println("Enter duration: ");
-			int durationYears = Integer.parseInt(scanner.nextLine());
-			this.account = new RecurringDeposit(accountNumber, name, balance, durationYears);
+			int durationYears = 0;
+			this.account = new RecurringDeposit(this.getAccountNumber(), this.getName(), this.getBalance(), durationYears);
+			this.account.setAccountType("Recurring");
 		} else if (accountType.equalsIgnoreCase("Fixed")) {
 			System.out.println("Enter duration: ");
-			int duration = Integer.parseInt(scanner.nextLine());
-			this.account = new FixedDeposit(this.accountNumber, this.name, this.balance, duration);
-		} else {
-			System.out.println("***Invlid account type***");
+			int duration = 0;
+			this.account = new FixedDeposit(this.getAccountNumber(), this.getName(), this.getBalance(), duration);
+			this.account.setAccountType("Fixed");
 		}
-
+		this.account.setAccountType(accountType);
 	}
 
 	public void transaction() throws IOException {
@@ -183,7 +204,24 @@ public class User {
 	}
 
 	public void options() throws IOException {
-		System.out.println(accountNumber + "  " + name + "  " + password);
+		FileReader reader = null;
+		BufferedReader bReader = null;
+		try {
+			reader = new FileReader(System.getProperty("user.dir") + "/src/main/resources/UserData.txt");
+			bReader = new BufferedReader(reader);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		String line;
+		while ((line = bReader.readLine()) != null) {
+            if (line.contains(this.name)) {
+            	String elements[] = line.split(",");
+            	this.setAccountNumber(elements[0]);
+            	this.setBalance(Double.parseDouble(elements[3]));
+            	System.out.println(elements[4]);
+            	this.setAccount(elements[4]);
+            }
+         }
 		Scanner scanner = new Scanner(System.in);
 		int choice = 0;
 		do {
