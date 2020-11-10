@@ -1,26 +1,24 @@
 package bankApplication;
 
 public class SavingsAccount extends Account {
-	static private double annualInterestRate;
-    private double savingBalance;
-    int balance;
-    SavingsAccount(int num,String name,double savingBalance,double newInterestRate)
-    {
-        super(num,name);					
-        this.savingBalance = savingBalance;
-	        SavingsAccount.annualInterestRate = newInterestRate;
-    }
-    void display()
-    {
-        System.out.println("Savings Account Details --- ");
-        System.out.println("Number : "+number);
-        System.out.println("Name   : "+name);
-        System.out.println("Balance : "+savingBalance);
-    }
-    void calculate()
-    {
-	    double monthlyI; 
-        monthlyI= (double)(this.savingBalance*annualInterestRate/12);
-        this.savingBalance+=monthlyI;
-    }
+	final private double annualInterestRate = 0.04;
+	private double balance;
+
+	SavingsAccount(String accountNumber, String name, double balance) {
+		super(accountNumber, name);
+		this.balance = balance;
+	}
+
+	void display() {
+		System.out.println("Savings Account Details --- ");
+		System.out.println("Account number : " + this.accountNumber);
+		System.out.println("Name   : " + this.name);
+		System.out.println("Balance : " + this.balance);
+	}
+
+	void calculate() {
+		double monthlyI;
+		monthlyI = (double) (this.balance * annualInterestRate / 12);
+		this.balance += monthlyI;
+	}
 }

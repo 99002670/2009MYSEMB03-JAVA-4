@@ -41,9 +41,14 @@ public class Bank {
 				System.out.println("***Passwords don't match***");
 			}
 		}
-//		System.out.println(user.getName());
-//		System.out.println(user.getPassword());
-//		System.out.println(user.getAccountNumber());
+		System.out.println("Enter balance: ");
+		user.setBalance(Double.parseDouble(scanner.nextLine()));
+		System.out.println("###Types of accounts###");
+		System.out.println("Savings");
+		System.out.println("Recurring");
+		System.out.println("Fixed");
+		System.out.println("Enter account type: ");
+		user.setAccount(scanner.nextLine());
 	}
 
 	public void login(BufferedReader bReader) throws IOException {
