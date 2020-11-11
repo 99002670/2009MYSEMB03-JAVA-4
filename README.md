@@ -11,3 +11,5 @@ C(")(")	  C(")(")   C(")(")
 > - Anubhav Reddy
 > - S P Bala Sirisha
 
+## Description
+> This a desktop based application that imitates a banking application with basic features
